@@ -1,0 +1,18 @@
+[Unit]
+Description=iTachyons Heka client
+After=syslog.target network.target
+
+[Service]
+User=root
+Group=root
+Environment=HOME=/root/thoth
+Type=simple
+ExecStart=/usr/bin/tacnode_heka --datadir /root/heka --syncmode 'full' --gcmode archive --port 30303 --bootnodes 'enode://531a4ef54eef972f31d9c2759f2a8e65ad721503e3a1e61bb5c51edf760553642d4dc3136b5ebd00763508f486bcd3629c5988b7cbc84ded3e65b8ad5aa30fce@68.183.10.215:30310' --http --http.addr "0.0.0.0" --http.port 8545 --http.corsdomain "*" --http.api "db,eth,miner,web3,net,personal,txpool,debug" --ws --ws.addr "0.0.0.0" --ws.port 8546 --ws.origins "*" --ws.api "db,eth,miner,web3,net,personal,txpool" --networkid 760 --http.vhosts=heka_rpc.tacscan.io
+KillMode=process
+KillSignal=SIGINT
+TimeoutStopSec=90
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target

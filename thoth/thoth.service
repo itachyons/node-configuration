@@ -1,0 +1,18 @@
+[Unit]
+Description=iTachyons Thoth client
+After=syslog.target network.target
+
+[Service]
+User=root
+Group=root
+Environment=HOME=/root/thoth
+Type=simple
+ExecStart=/usr/bin/tacnode --datadir /root/thoth --syncmode 'full' --gcmode archive --port 30315 --http --http.addr "0.0.0.0" --http.port 8555 --http.corsdomain "*" --http.api "db,eth,miner,web3,net,personal,txpool,debug" --ws --ws.addr "0.0.0.0" --ws.port 8556 --ws.origins "*" --ws.api "db,eth,miner,web3,net,personal,txpool" --networkid 765 --http.vhosts "*"
+KillMode=process
+KillSignal=SIGINT
+TimeoutStopSec=90
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
